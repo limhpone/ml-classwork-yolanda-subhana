@@ -6,18 +6,33 @@
 
 ---
 
+## Deployment Evidence
+
+Add proof of deployed app here (recommended: one screenshot + one video recording).
+
+### Screenshot (Deployed ML App)
+
+![Deployed app screenshot placeholder](img/deployment-screenshot-placeholder.png)
+
+> Replace `img/deployment-screenshot-placeholder.png` with your actual screenshot file path.
+
+### Video Recording (Deployed ML App)
+
+- Demo video link: [Add deployment demo video URL here](https://example.com/deployment-demo)
+
+> Replace the URL above with your real recording link (YouTube, Drive, or other hosted video).
+
+---
+
 ## Model Performance at a Glance
 
 | Metric | Value |
-|--------|-------|
+| -------- | ----- |
 | Accuracy | 80.77% |
 | AUC-ROC | 0.8468 |
 | CV AUC (5-fold) | 0.8482 ± 0.012 |
 | Best Model | Logistic Regression (C=5.0) |
 
----
-
-- Kaggle Dataset Link: [Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 ---
 
 ## Table of Contents
@@ -31,8 +46,7 @@
 7. [Model Training & Results](#7-model-training--results)
 8. [Flask Web Application](#8-flask-web-application)
 9. [How to Run](#9-how-to-run)
-10. [Dependencies](#10-dependencies)
-11. [Analysis Summary & Business Insights](#11-analysis-summary--business-insights)
+10. [Analysis Summary & Business Insights](#10-analysis-summary--business-insights)
 
 ---
 
@@ -51,9 +65,9 @@ Customer churn is a critical business metric — acquiring new customers costs 5
 
 ## 2. Project Structure
 
-```
+```text
 ml-project/
-├── train.ipynb                        # EDA, feature engineering, model training, evaluation
+├── train_EDA.ipynb                    # EDA, feature engineering, model training, evaluation
 ├── test_predict.ipynb                 # 6 inference tests covering edge cases and batch prediction
 ├── app.py                             # Flask REST API backend
 ├── templates/
@@ -66,8 +80,8 @@ ml-project/
 ```
 
 | File | Purpose |
-|------|---------|
-| `train.ipynb` | Full pipeline: EDA (7 charts), feature engineering, preprocessing, model comparison, threshold analysis, save model |
+| ---- | ------- |
+| `train_EDA.ipynb` | Full pipeline: EDA (7 charts), feature engineering, preprocessing, model comparison, threshold analysis, save model |
 | `test_predict.ipynb` | 6 inference tests: high-risk, low-risk, edge cases, batch, feature engineering consistency |
 | `app.py` | Flask REST API — loads `model.pkl`, applies feature engineering, exposes `GET /` and `POST /predict` |
 | `templates/index.html` | Interactive web UI — form inputs, probability bars, animated results |
@@ -86,10 +100,16 @@ ml-project/
 - **Target:** `Churn` (Yes → 1, No → 0)
 - **Class distribution:** 73.5% No Churn (5,174) | 26.5% Churn (1,869) — moderately imbalanced
 
+---
+
+- Kaggle Dataset Link: [Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+
+---
+
 ### Features
 
 | Category | Features |
-|----------|----------|
+| --------- | -------- |
 | Demographics (4) | `gender`, `SeniorCitizen`, `Partner`, `Dependents` |
 | Account / Billing (6) | `tenure`, `Contract`, `PaperlessBilling`, `PaymentMethod`, `MonthlyCharges`, `TotalCharges` |
 | Phone Services (2) | `PhoneService`, `MultipleLines` |
@@ -100,7 +120,7 @@ ml-project/
 ### Data Quality Fixes
 
 | Issue | Rows Affected | Fix |
-|-------|--------------|-----|
+| ----- | ------------- | --- |
 | `TotalCharges` stored as string (spaces) | 11 rows (tenure=0) | `pd.to_numeric(errors='coerce')` then `fillna(median)` |
 | `SeniorCitizen` encoded as integer 0/1 | All rows | Cast to string — treated as categorical by `OneHotEncoder` |
 | `customerID` — unique identifier, no signal | All rows | Dropped before training |
@@ -109,10 +129,10 @@ ml-project/
 
 ## 4. Exploratory Data Analysis (EDA)
 
-All EDA is implemented in `train.ipynb`. Seven charts are produced and saved as PNG files alongside the notebook:
+All EDA is implemented in `train_EDA.ipynb`. Seven charts are produced and saved as PNG files alongside the notebook:
 
 | File | Chart Type | Key Finding |
-|------|-----------|-------------|
+| ---- | ---------- | ----------- |
 | `eda_01_target_distribution.png` | Bar chart + pie chart | 73.5% No Churn vs 26.5% Churn |
 | `eda_02_numerical_distributions.png` | Histogram + KDE (2×3 grid) | Churners have short tenure, high monthly charges |
 | `eda_03_boxplots.png` | Boxplots by churn status | Churners' median tenure = 10m vs 38m for non-churners |
@@ -136,10 +156,10 @@ All EDA is implemented in `train.ipynb`. Seven charts are produced and saved as 
 One new numerical feature is derived and validated to improve AUC by **+0.47 percentage points** over the baseline:
 
 | Feature | Formula | Rationale |
-|---------|---------|-----------|
+| ------- | ------- | --------- |
 | `charges_per_month` | `TotalCharges / (tenure + 1)` | Normalises total spend by tenure. The `+1` prevents division-by-zero for `tenure=0` (new customers). Churners tend to have high charges relative to their tenure — this makes that signal explicit to the model. |
 
-> **Important:** `charges_per_month` is computed in both `train.ipynb` and `app.py` using the same formula. These must stay in sync — changing one without the other will silently degrade predictions.
+> **Important:** `charges_per_month` is computed in both `train_EDA.ipynb` and `app.py` using the same formula. These must stay in sync — changing one without the other will silently degrade predictions.
 
 ---
 
@@ -148,7 +168,7 @@ One new numerical feature is derived and validated to improve AUC by **+0.47 per
 A single `sklearn.Pipeline` encapsulates all transformations and the classifier, guaranteeing no data leakage and clean serialisation into `model.pkl`:
 
 | Step | Transformer | Applied To | Why |
-|------|------------|-----------|-----|
+| ---- | ----------- | --------- | --- |
 | 1 — Impute (num) | `SimpleImputer(strategy='median')` | All numerical columns | Handles 11 NaN rows from `TotalCharges` coercion |
 | 2 — Scale | `StandardScaler` | All numerical columns | Logistic regression is sensitive to feature magnitude |
 | 3 — Impute (cat) | `SimpleImputer(strategy='most_frequent')` | All 16 categorical columns | Safety net for missing values at inference |
@@ -164,7 +184,7 @@ The full pipeline is saved as `model.pkl`. `app.py` only needs to call `pipeline
 ### Models Compared
 
 | Model | Accuracy | AUC-ROC | F1 (Churn) | CV AUC (5-fold) |
-|-------|---------|---------|-----------|----------------|
+| ----- | -------- | ------- | --------- | -------------- |
 | **Logistic Regression ✓** | **0.8077** | **0.8468** | **0.5973** | **0.8482 ± 0.012** |
 | Decision Tree | 0.7942 | 0.8284 | 0.5800 | 0.8284 ± 0.018 |
 | Random Forest | 0.7857 | 0.8244 | 0.5500 | 0.8244 ± 0.014 |
@@ -180,7 +200,7 @@ The full pipeline is saved as `model.pkl`. `app.py` only needs to call `pipeline
 
 ### Final Classification Report (20% Hold-out Test Set)
 
-```
+```text
               precision    recall  f1-score   support
 
     No Churn       0.84      0.91      0.87      1035
@@ -194,7 +214,7 @@ weighted avg       0.80      0.81      0.80      1409
 ### Threshold Optimisation
 
 | Threshold | Accuracy | F1 (Churn) | Recall (Churn) | Notes |
-|-----------|---------|-----------|---------------|-------|
+| --------- | -------- | --------- | ------------- | ----- |
 | 0.500 (deployed) | 0.8077 | 0.5973 | 0.54 | Balanced precision/recall; used in deployment |
 | 0.323 (optimal F1) | 0.7715 | 0.6333 | 0.74 | Higher recall; lower overall accuracy |
 
@@ -207,7 +227,7 @@ weighted avg       0.80      0.81      0.80      1409
 ### API Endpoints
 
 | Route | Method | Description |
-|-------|--------|-------------|
+| ----- | ------ | ----------- |
 | `GET /` | GET | Serve the prediction UI (`index.html`) |
 | `POST /predict` | POST | Predict churn for one customer — accepts JSON, returns prediction + probabilities |
 
@@ -237,7 +257,7 @@ Send a JSON body with all 19 raw feature fields (same names as the CSV columns, 
 ```python
 tenure            = float(data['tenure'])
 total_charges     = float(data['TotalCharges'])
-charges_per_month = total_charges / (tenure + 1)   # must match train.ipynb
+charges_per_month = total_charges / (tenure + 1)   # must match train_EDA.ipynb
 ```
 
 ---
@@ -268,7 +288,7 @@ pip install -r requirements.txt
 
 # 5. (Optional) Retrain the model
 #    model.pkl is already included — skip this step to use the pre-trained model
-jupyter notebook train.ipynb
+jupyter notebook train_EDA.ipynb
 # Run all cells top to bottom; model.pkl will be regenerated
 
 # 6. (Optional) Run the inference test suite
@@ -283,7 +303,7 @@ python app.py
 open http://localhost:5000
 ```
 
-> **If you see `FileNotFoundError: model.pkl`** — run `train.ipynb` first (Step 5), or ensure the pre-trained `model.pkl` is in the same directory as `app.py`.
+> **If you see `FileNotFoundError: model.pkl`** — run `train_EDA.ipynb` first (Step 5), or ensure the pre-trained `model.pkl` is in the same directory as `app.py`.
 
 ---
 
@@ -300,7 +320,7 @@ docker run -p 5000:5000 churn-predictor
 open http://localhost:5000
 ```
 
-> The Dockerfile installs from `requirements.txt` using `python:3.9-slim`. Only `model.pkl`, `app.py`, and `templates/` are copied into the container — the CSV dataset and notebooks are not needed for serving.
+> The Dockerfile installs from `requirements.txt` using `python:3.13-slim`. Only `model.pkl`, `app.py`, and `templates/` are copied into the container — the CSV dataset and notebooks are not needed for serving.
 
 ---
 
@@ -316,31 +336,7 @@ Once the server is running at `http://localhost:5000`:
 
 ---
 
-## 10. Dependencies
-
-### Runtime (Flask server)
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `flask` | 3.0.3 | Web framework and REST API server |
-| `scikit-learn` | 1.5.2 | Pipeline, preprocessing, LogisticRegression, metrics |
-| `pandas` | 2.2.2 | Data loading and DataFrame construction |
-| `numpy` | 1.26.4 | Numerical operations |
-
-### Training / Analysis (Jupyter only)
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `matplotlib` | 3.9.2 | EDA charts and model evaluation plots |
-| `seaborn` | 0.13.2 | KDE plots and heatmap |
-| `jupyter` | 1.1.1 | Notebook environment |
-| `ipykernel` | 6.29.5 | Python kernel for Jupyter |
-
-**Python version:** 3.9+ (Docker) | 3.12 (local development)
-
----
-
-## 11. Analysis Summary & Business Insights
+## 10. Analysis Summary & Business Insights
 
 ### Key Findings
 
@@ -367,4 +363,4 @@ Once the server is running at `http://localhost:5000`:
 
 ---
 
-*Aye Khin Khin Hpone (Yolanda Lim) — ST125970 | Subhana Chitrakar — ST126138 | Machine Learning Course*
+Aye Khin Khin Hpone (Yolanda Lim) — ST125970 | Subhana Chitrakar — ST126138 | Machine Learning Course

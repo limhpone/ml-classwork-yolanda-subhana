@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify, render_template
 import pickle
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
 # ── Load the full sklearn Pipeline once at startup ────────────────────────────
 # model.pkl contains: SimpleImputer + StandardScaler + OneHotEncoder + LogisticRegression(C=5.0)
 # Feature engineering (charges_per_month) is applied before passing to the pipeline.
-pipeline = pickle.load(open('model.pkl', 'rb'))
+with open('model.pkl', 'rb') as model_file:
+    pipeline = pickle.load(model_file)
 
 # Column order to match training exactly
 NUMERICAL_COLS = ['tenure', 'MonthlyCharges', 'TotalCharges', 'charges_per_month']
@@ -19,6 +21,7 @@ CATEGORICAL_COLS = [
     'Contract', 'PaperlessBilling', 'PaymentMethod'
 ]
 ALL_COLS = NUMERICAL_COLS + CATEGORICAL_COLS
+RAW_INPUT_COLS = ['tenure', 'MonthlyCharges', 'TotalCharges'] + CATEGORICAL_COLS
 
 
 @app.route('/')
@@ -28,12 +31,21 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Request body must be valid JSON.'}), 400
+
+    missing_fields = [field for field in RAW_INPUT_COLS if field not in data]
+    if missing_fields:
+        return jsonify({'error': 'Missing required fields.', 'missing_fields': missing_fields}), 400
 
     # ── Parse raw inputs ──────────────────────────────────────────────────────
-    tenure          = float(data.get('tenure', 0))
-    monthly_charges = float(data.get('MonthlyCharges', 0))
-    total_charges   = float(data.get('TotalCharges', 0))
+    try:
+        tenure = float(data['tenure'])
+        monthly_charges = float(data['MonthlyCharges'])
+        total_charges = float(data['TotalCharges'])
+    except (TypeError, ValueError):
+        return jsonify({'error': 'tenure, MonthlyCharges, and TotalCharges must be numeric.'}), 400
 
     # ── Feature engineering (mirror train.ipynb exactly) ─────────────────
     # charges_per_month: normalises total spend by tenure length
@@ -70,4 +82,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=os.getenv('FLASK_DEBUG', 'false').lower() == 'true')

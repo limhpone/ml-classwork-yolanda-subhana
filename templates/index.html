@@ -54,6 +54,10 @@
         }
         .section-strip:first-child { margin-top: 0; }
         .strip-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .strip-dot--green { background: var(--green); }
+        .strip-dot--coral { background: var(--coral); }
+        .strip-dot--lilac { background: var(--lilac); }
+        .strip-dot--brown { background: var(--brown); }
         .strip-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--brown); }
         .strip-line { flex: 1; height: 1px; background: var(--border); }
 
@@ -106,7 +110,7 @@
             font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-bottom: 4px;
         }
         .prob-track { height: 8px; background: #ede8e7; border-radius: 4px; overflow: hidden; }
-        .prob-fill { height: 100%; border-radius: 4px; transition: width 0.65s cubic-bezier(.4,0,.2,1); }
+        .prob-fill { height: 100%; border-radius: 4px; width: 0%; transition: width 0.65s cubic-bezier(.4,0,.2,1); }
         .fill-churn    { background: linear-gradient(90deg, var(--coral), #d45f54); }
         .fill-no-churn { background: linear-gradient(90deg, var(--green), #6dc97a); }
 
@@ -139,49 +143,49 @@
         <div class="grid">
 
             <div class="section-strip">
-                <div class="strip-dot" style="background:#ADEBB3"></div>
+                <div class="strip-dot strip-dot--green"></div>
                 <span class="strip-label">Demographics</span>
                 <div class="strip-line"></div>
             </div>
-            <div class="field"><label>Gender</label>
-                <select id="gender"><option value="Female">Female</option><option value="Male">Male</option></select>
+            <div class="field"><label for="gender">Gender</label>
+                <select id="gender" title="Gender"><option value="Female">Female</option><option value="Male">Male</option></select>
             </div>
-            <div class="field"><label>Senior Citizen</label>
-                <select id="SeniorCitizen"><option value="0">No</option><option value="1">Yes</option></select>
+            <div class="field"><label for="SeniorCitizen">Senior Citizen</label>
+                <select id="SeniorCitizen" title="Senior Citizen"><option value="0">No</option><option value="1">Yes</option></select>
             </div>
-            <div class="field"><label>Partner</label>
-                <select id="Partner"><option value="No">No</option><option value="Yes">Yes</option></select>
+            <div class="field"><label for="Partner">Partner</label>
+                <select id="Partner" title="Partner"><option value="No">No</option><option value="Yes">Yes</option></select>
             </div>
-            <div class="field"><label>Dependents</label>
-                <select id="Dependents"><option value="No">No</option><option value="Yes">Yes</option></select>
+            <div class="field"><label for="Dependents">Dependents</label>
+                <select id="Dependents" title="Dependents"><option value="No">No</option><option value="Yes">Yes</option></select>
             </div>
 
             <div class="section-strip">
-                <div class="strip-dot" style="background:#FF857A"></div>
+                <div class="strip-dot strip-dot--coral"></div>
                 <span class="strip-label">Account & Billing</span>
                 <div class="strip-line"></div>
             </div>
-            <div class="field"><label>Tenure (months)</label>
-                <input type="number" id="tenure" value="12" min="0" max="72">
+            <div class="field"><label for="tenure">Tenure (months)</label>
+                <input type="number" id="tenure" title="Tenure (months)" value="12" min="0" max="72">
             </div>
-            <div class="field"><label>Monthly Charges ($)</label>
-                <input type="number" id="MonthlyCharges" value="50.00" min="0" step="0.01">
+            <div class="field"><label for="MonthlyCharges">Monthly Charges ($)</label>
+                <input type="number" id="MonthlyCharges" title="Monthly Charges" value="50.00" min="0" step="0.01">
             </div>
-            <div class="field"><label>Total Charges ($)</label>
-                <input type="number" id="TotalCharges" value="600.00" min="0" step="0.01">
+            <div class="field"><label for="TotalCharges">Total Charges ($)</label>
+                <input type="number" id="TotalCharges" title="Total Charges" value="600.00" min="0" step="0.01">
             </div>
-            <div class="field"><label>Contract</label>
-                <select id="Contract">
+            <div class="field"><label for="Contract">Contract</label>
+                <select id="Contract" title="Contract">
                     <option value="Month-to-month">Month-to-month</option>
                     <option value="One year">One year</option>
                     <option value="Two year">Two year</option>
                 </select>
             </div>
-            <div class="field"><label>Paperless Billing</label>
-                <select id="PaperlessBilling"><option value="No">No</option><option value="Yes">Yes</option></select>
+            <div class="field"><label for="PaperlessBilling">Paperless Billing</label>
+                <select id="PaperlessBilling" title="Paperless Billing"><option value="No">No</option><option value="Yes">Yes</option></select>
             </div>
-            <div class="field"><label>Payment Method</label>
-                <select id="PaymentMethod">
+            <div class="field"><label for="PaymentMethod">Payment Method</label>
+                <select id="PaymentMethod" title="Payment Method">
                     <option value="Electronic check">Electronic check</option>
                     <option value="Mailed check">Mailed check</option>
                     <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
@@ -190,62 +194,62 @@
             </div>
 
             <div class="section-strip">
-                <div class="strip-dot" style="background:#EBAEE6"></div>
+                <div class="strip-dot strip-dot--lilac"></div>
                 <span class="strip-label">Phone Services</span>
                 <div class="strip-line"></div>
             </div>
-            <div class="field"><label>Phone Service</label>
-                <select id="PhoneService"><option value="No">No</option><option value="Yes">Yes</option></select>
+            <div class="field"><label for="PhoneService">Phone Service</label>
+                <select id="PhoneService" title="Phone Service"><option value="No">No</option><option value="Yes">Yes</option></select>
             </div>
-            <div class="field"><label>Multiple Lines</label>
-                <select id="MultipleLines">
+            <div class="field"><label for="MultipleLines">Multiple Lines</label>
+                <select id="MultipleLines" title="Multiple Lines">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No phone service">No phone service</option>
                 </select>
             </div>
 
             <div class="section-strip">
-                <div class="strip-dot" style="background:#6B403C"></div>
+                <div class="strip-dot strip-dot--brown"></div>
                 <span class="strip-label">Internet Services</span>
                 <div class="strip-line"></div>
             </div>
-            <div class="field"><label>Internet Service</label>
-                <select id="InternetService">
+            <div class="field"><label for="InternetService">Internet Service</label>
+                <select id="InternetService" title="Internet Service">
                     <option value="DSL">DSL</option><option value="Fiber optic">Fiber optic</option><option value="No">No</option>
                 </select>
             </div>
-            <div class="field"><label>Online Security</label>
-                <select id="OnlineSecurity">
+            <div class="field"><label for="OnlineSecurity">Online Security</label>
+                <select id="OnlineSecurity" title="Online Security">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No internet service">No internet service</option>
                 </select>
             </div>
-            <div class="field"><label>Online Backup</label>
-                <select id="OnlineBackup">
+            <div class="field"><label for="OnlineBackup">Online Backup</label>
+                <select id="OnlineBackup" title="Online Backup">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No internet service">No internet service</option>
                 </select>
             </div>
-            <div class="field"><label>Device Protection</label>
-                <select id="DeviceProtection">
+            <div class="field"><label for="DeviceProtection">Device Protection</label>
+                <select id="DeviceProtection" title="Device Protection">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No internet service">No internet service</option>
                 </select>
             </div>
-            <div class="field"><label>Tech Support</label>
-                <select id="TechSupport">
+            <div class="field"><label for="TechSupport">Tech Support</label>
+                <select id="TechSupport" title="Tech Support">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No internet service">No internet service</option>
                 </select>
             </div>
-            <div class="field"><label>Streaming TV</label>
-                <select id="StreamingTV">
+            <div class="field"><label for="StreamingTV">Streaming TV</label>
+                <select id="StreamingTV" title="Streaming TV">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No internet service">No internet service</option>
                 </select>
             </div>
-            <div class="field"><label>Streaming Movies</label>
-                <select id="StreamingMovies">
+            <div class="field"><label for="StreamingMovies">Streaming Movies</label>
+                <select id="StreamingMovies" title="Streaming Movies">
                     <option value="No">No</option><option value="Yes">Yes</option>
                     <option value="No internet service">No internet service</option>
                 </select>
@@ -266,11 +270,11 @@
                     </div>
                     <div class="prob-row">
                         <div class="prob-meta"><span>Churn Probability</span><span id="probChurnPct"></span></div>
-                        <div class="prob-track"><div class="prob-fill fill-churn" id="barChurn" style="width:0%"></div></div>
+                        <div class="prob-track"><div class="prob-fill fill-churn" id="barChurn"></div></div>
                     </div>
                     <div class="prob-row">
                         <div class="prob-meta"><span>No Churn Probability</span><span id="probNoChurnPct"></span></div>
-                        <div class="prob-track"><div class="prob-fill fill-no-churn" id="barNoChurn" style="width:0%"></div></div>
+                        <div class="prob-track"><div class="prob-fill fill-no-churn" id="barNoChurn"></div></div>
                     </div>
                 </div>
             </div>
