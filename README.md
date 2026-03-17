@@ -17,6 +17,9 @@
 
 ---
 
+- Kaggle Dataset Link: [Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+---
+
 ## Table of Contents
 
 1. [Project Overview](#1-project-overview)
