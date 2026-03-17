@@ -1,7 +1,8 @@
 # Telco Customer Churn Prediction
 
 **Course:** Machine Learning
-**Authors:** Aye Khin Khin Hpone (Yolanda Lim) — ST125970 | Subhana Chitrakar — ST126138
+
+**Authors:** Aye Khin Khin Hpone (Yolanda Lim) — 125970 | Subhana Chitrakar — 126138
 
 ---
 
