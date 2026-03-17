@@ -6,10 +6,10 @@ app = Flask(__name__)
 
 # ── Load the full sklearn Pipeline once at startup ────────────────────────────
 # model.pkl contains: SimpleImputer + StandardScaler + OneHotEncoder + LogisticRegression(C=5.0)
-# Feature engineering (charges_per_month) is applied here before passing to the pipeline.
+# Feature engineering (charges_per_month) is applied before passing to the pipeline.
 pipeline = pickle.load(open('model.pkl', 'rb'))
 
-# Column order must match training exactly
+# Column order to match training exactly
 NUMERICAL_COLS = ['tenure', 'MonthlyCharges', 'TotalCharges', 'charges_per_month']
 CATEGORICAL_COLS = [
     'gender', 'SeniorCitizen', 'Partner', 'Dependents',
@@ -35,7 +35,7 @@ def predict():
     monthly_charges = float(data.get('MonthlyCharges', 0))
     total_charges   = float(data.get('TotalCharges', 0))
 
-    # ── Feature engineering (must mirror train.ipynb exactly) ─────────────────
+    # ── Feature engineering (mirror train.ipynb exactly) ─────────────────
     # charges_per_month: normalises total spend by tenure length
     # +1 prevents division-by-zero for new customers with tenure=0
     charges_per_month = total_charges / (tenure + 1)
