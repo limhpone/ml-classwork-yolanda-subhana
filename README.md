@@ -7,8 +7,10 @@
 ---
 
 ## Deployment Evidence
+### Live Deployment
 
-Add proof of deployed app here (recommended: one screenshot + one video recording).
+- **Yolanda Lim (ST125970):** http://192.41.170.112:5970  
+- **Subhana Chitrakar (ST126138):** http://192.41.170.112:6138  
 
 ### Screenshot (Deployed ML App)
 
@@ -79,18 +81,6 @@ ml-project/
 └── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Raw dataset (not committed in production)
 ```
 
-| File | Purpose |
-| ---- | ------- |
-| `train_EDA.ipynb` | Full pipeline: EDA (7 charts), feature engineering, preprocessing, model comparison, threshold analysis, save model |
-| `test_predict.ipynb` | 6 inference tests: high-risk, low-risk, edge cases, batch, feature engineering consistency |
-| `app.py` | Flask REST API — loads `model.pkl`, applies feature engineering, exposes `GET /` and `POST /predict` |
-| `templates/index.html` | Interactive web UI — form inputs, probability bars, animated results |
-| `model.pkl` | Serialised sklearn Pipeline: `SimpleImputer → StandardScaler → OneHotEncoder → LogisticRegression(C=5.0)` |
-| `requirements.txt` | Pinned Python dependencies for reproducibility |
-| `Dockerfile` | Container definition for deployment on any platform |
-
----
-
 ## 3. Dataset
 
 **Source:** IBM Telco Customer Churn (`WA_Fn-UseC_-Telco-Customer-Churn.csv`)
@@ -129,18 +119,6 @@ ml-project/
 
 ## 4. Exploratory Data Analysis (EDA)
 
-All EDA is implemented in `train_EDA.ipynb`. Seven charts are produced and saved as PNG files alongside the notebook:
-
-| File | Chart Type | Key Finding |
-| ---- | ---------- | ----------- |
-| `eda_01_target_distribution.png` | Bar chart + pie chart | 73.5% No Churn vs 26.5% Churn |
-| `eda_02_numerical_distributions.png` | Histogram + KDE (2×3 grid) | Churners have short tenure, high monthly charges |
-| `eda_03_boxplots.png` | Boxplots by churn status | Churners' median tenure = 10m vs 38m for non-churners |
-| `eda_04_categorical_features.png` | Grouped bar charts (% within category) | Month-to-month and Fiber optic drive highest churn |
-| `eda_05_correlation_heatmap.png` | Lower-triangle heatmap | `tenure` most negatively correlated with churn; `MonthlyCharges` positive |
-| `eda_06_tenure_churn_rate.png` | Bar chart by tenure bracket | 0–12m band has >47% churn rate vs <10% for 61–72m |
-| `eda_07_engineered_feature.png` | Histogram + KDE for `charges_per_month` | Engineered feature cleanly separates churn distributions |
-
 ### Key EDA Findings
 
 - **Contract type** is the strongest categorical predictor — month-to-month customers churn at ~43% vs ~11% (one year) and ~3% (two year)
@@ -159,7 +137,7 @@ One new numerical feature is derived and validated to improve AUC by **+0.47 per
 | ------- | ------- | --------- |
 | `charges_per_month` | `TotalCharges / (tenure + 1)` | Normalises total spend by tenure. The `+1` prevents division-by-zero for `tenure=0` (new customers). Churners tend to have high charges relative to their tenure — this makes that signal explicit to the model. |
 
-> **Important:** `charges_per_month` is computed in both `train_EDA.ipynb` and `app.py` using the same formula. These must stay in sync — changing one without the other will silently degrade predictions.
+> **Note:** `charges_per_month` is computed in both `train_EDA.ipynb` and `app.py` using the same formula. These must stay in sync — changing one without the other will silently degrade predictions.
 
 ---
 
@@ -185,10 +163,10 @@ The full pipeline is saved as `model.pkl`. `app.py` only needs to call `pipeline
 
 | Model | Accuracy | AUC-ROC | F1 (Churn) | CV AUC (5-fold) |
 | ----- | -------- | ------- | --------- | -------------- |
-| **Logistic Regression ✓** | **0.8077** | **0.8468** | **0.5973** | **0.8482 ± 0.012** |
-| Decision Tree | 0.7942 | 0.8284 | 0.5800 | 0.8284 ± 0.018 |
-| Random Forest | 0.7857 | 0.8244 | 0.5500 | 0.8244 ± 0.014 |
-| KNN | 0.7630 | 0.7915 | 0.5500 | 0.7915 ± 0.016 |
+| **Logistic Regression ✓** | **0.8077** | **0.8468** | **0.5973** | **0.8491 ± 0.012** |
+| Decision Tree | 0.7942 | 0.8295 | 0.5845 | 0.8289 ± 0.089 |
+| Random Forest | 0.7807 | 0.8236 | 0.5422 | 0.8266 ± 0.0116 |
+| KNN | 0.7658 | 0.7934 | 0.5528 | 0.7829 ± 0.092 |
 
 ### Why Logistic Regression
 
@@ -264,69 +242,30 @@ charges_per_month = total_charges / (tenure + 1)   # must match train_EDA.ipynb
 
 ## 9. How to Run
 
-### Option A — Local Python Environment
+### Source Code
+
+GitHub: https://github.com/limhpone/ml-classwork-yolanda-subhana  
+Docker Hub: https://hub.docker.com/repository/docker/yolandalim/ml-yolanda-subhana/general  
 
 ```bash
-# 1. Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/limhpone/ml-classwork-yolanda-subhana.git
 cd ml-project
 
-# 2. Create a virtual environment
 python -m venv .venv
-
-# Activate — Windows
+# Activate (Windows)
 .venv\Scripts\activate
-
-# Activate — macOS / Linux
+# Activate (macOS/Linux)
 source .venv/bin/activate
 
-# 3. Install all dependencies (Flask + ML + Jupyter)
 pip install -r requirements.txt
-
-# 4. Place the dataset in the project root (required only if retraining)
-#    File: WA_Fn-UseC_-Telco-Customer-Churn.csv
-
-# 5. (Optional) Retrain the model
-#    model.pkl is already included — skip this step to use the pre-trained model
-jupyter notebook train_EDA.ipynb
-# Run all cells top to bottom; model.pkl will be regenerated
-
-# 6. (Optional) Run the inference test suite
-jupyter notebook test_predict.ipynb
-# All 6 cells should print PASS
-
-# 7. Start the Flask server
 python app.py
-# Output: * Running on http://0.0.0.0:5000
 
-# 8. Open your browser
-open http://localhost:5000
-```
-
-> **If you see `FileNotFoundError: model.pkl`** — run `train_EDA.ipynb` first (Step 5), or ensure the pre-trained `model.pkl` is in the same directory as `app.py`.
-
----
-
-### Option B — Docker
-
-```bash
-# 1. Build the Docker image
-docker build -t churn-predictor .
-
-# 2. Run the container (maps container port 5000 to host port 5000)
-docker run -p 5000:5000 churn-predictor
-
-# 3. Open your browser
-open http://localhost:5000
-```
-
-> The Dockerfile installs from `requirements.txt` using `python:3.13-slim`. Only `model.pkl`, `app.py`, and `templates/` are copied into the container — the CSV dataset and notebooks are not needed for serving.
-
----
+docker build -t ml-yolanda-subhana .
+docker run -p 5000:5000 ml-yolanda-subhana
 
 ### Option C — Web UI Walkthrough
 
-Once the server is running at `http://localhost:5000`:
+Once the server is running :
 
 1. Fill in the customer profile using the dropdown menus and numeric inputs across all four sections (Demographics, Account Information, Phone Services, Internet Services)
 2. Click **Predict Churn**
@@ -345,21 +284,6 @@ Once the server is running at `http://localhost:5000`:
 - **Fiber optic internet is associated with higher churn.** This may indicate value-for-money concerns. Pricing review or service quality improvements could help.
 - **Security and support add-ons are protective.** Customers with `OnlineSecurity` and `TechSupport` churn less. Offering these as free trial bundles to at-risk customers could improve retention.
 - **Electronic check payers churn more.** Incentivising autopay enrolment (e.g. a discount) could reduce churn in this segment.
-
-### Model Limitations
-
-- Class imbalance (73.5%/26.5%) constrains recall for churners (54% at threshold=0.5). SMOTE or `class_weight='balanced'` could improve minority class recall.
-- Logistic regression assumes a linear decision boundary — non-linear models (XGBoost, LightGBM) may capture more complex interactions.
-- The dataset is a static snapshot — no temporal/sequential patterns are captured.
-- Model may degrade over time as customer behaviour evolves — periodic retraining is recommended.
-
-### Future Improvements
-
-- Experiment with XGBoost or LightGBM for potentially higher AUC
-- Apply SMOTE oversampling to improve Churn recall
-- Add SHAP values to the UI for per-prediction feature explanation
-- Deploy to cloud (AWS ECS / GCP Cloud Run) with CI/CD pipeline
-- Add a data drift monitor — alert when input distributions shift significantly
 
 ---
 
