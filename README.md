@@ -21,8 +21,18 @@ Logistic Regression Pipeline · Machine Learning
 
 ### Video Recording (Deployed ML App)
 
-- YouTube demo: <https://youtu.be/QBTj7j6pSYs>
-- Local video file (not committed due GitHub size limit): `screencapture_ml_yolanda_deployed/125970_YolandaLim_Aye Khin Khin Hpone.mp4`
+#### Watch Online
+- **YouTube demo:** <https://youtu.be/QBTj7j6pSYs>
+
+#### Local Video File
+- **Download / Stream:** [125970_YolandaLim_Aye Khin Khin Hpone.mp4](screencapture_ml_yolanda_deployed/125970_YolandaLim_Aye%20Khin%20Khin%20Hpone.mp4)
+
+#### Video Player
+
+<video width="100%" controls>
+  <source src="screencapture_ml_yolanda_deployed/125970_YolandaLim_Aye Khin Khin Hpone.mp4" type="video/mp4">
+  Your browser does not support the video tag. Download the file above or watch on YouTube.
+</video>
 
 ### Deployment Screenshots (9)
 
