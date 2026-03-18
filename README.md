@@ -13,17 +13,36 @@
 - **Yolanda Lim (ST125970):** <http://192.41.170.112:5970>  
 - **Subhana Chitrakar (ST126138):** <http://192.41.170.112:6138>  
 
-### Screenshot (Deployed ML App)
+### Deployed Model
 
-![Deployed app screenshot placeholder](img/deployment-screenshot-placeholder.png)
-
-> Replace `img/deployment-screenshot-placeholder.png` with your actual screenshot file path.
+**Telco Churn Predictor**  
+Aye Khin Khin Hpone (Yolanda Lim) · ST125970 · Subhana Chitrakar · ST126138  
+Logistic Regression Pipeline · Machine Learning
 
 ### Video Recording (Deployed ML App)
 
-- Demo video link: [Add deployment demo video URL here](https://example.com/deployment-demo)
+- YouTube demo: <https://youtu.be/QBTj7j6pSYs>
+- Local video file (not committed due GitHub size limit): `screencapture_ml_yolanda_deployed/125970_YolandaLim_Aye Khin Khin Hpone.mp4`
 
-> Replace the URL above with your real recording link (YouTube, Drive, or other hosted video).
+### Deployment Screenshots (9)
+
+<table>
+   <tr>
+      <td><img src="screencapture_ml_yolanda_deployed/deploy.png" alt="Deployment screenshot 1" width="100%" /></td>
+      <td><img src="screencapture_ml_yolanda_deployed/homepage.png" alt="Deployment screenshot 2" width="100%" /></td>
+      <td><img src="screencapture_ml_yolanda_deployed/homepage1_with%20deploymentadd.png" alt="Deployment screenshot 3" width="100%" /></td>
+   </tr>
+   <tr>
+      <td><img src="screencapture_ml_yolanda_deployed/Screenshot%202026-03-18%20124645.png" alt="Deployment screenshot 4" width="100%" /></td>
+      <td><img src="screencapture_ml_yolanda_deployed/Screenshot%202026-03-18%20124657.png" alt="Deployment screenshot 5" width="100%" /></td>
+      <td><img src="screencapture_ml_yolanda_deployed/Screenshot%202026-03-18%20124708.png" alt="Deployment screenshot 6" width="100%" /></td>
+   </tr>
+   <tr>
+      <td><img src="screencapture_ml_yolanda_deployed/Screenshot%202026-03-18%20124719.png" alt="Deployment screenshot 7" width="100%" /></td>
+      <td><img src="screencapture_ml_yolanda_deployed/Screenshot%202026-03-18%20124729.png" alt="Deployment screenshot 8" width="100%" /></td>
+      <td><img src="screencapture_ml_yolanda_deployed/Screenshot%202026-03-18%20124740.png" alt="Deployment screenshot 9" width="100%" /></td>
+   </tr>
+</table>
 
 ---
 

@@ -43,3 +43,6 @@ model_comparison.png
 roc_curve*.png
 confusion_matrix*.png
 feature_importance.png
+
+# Local deployment recordings (too large for GitHub)
+screencapture_ml_yolanda_deployed/*.mp4
