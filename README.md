@@ -7,10 +7,11 @@
 ---
 
 ## Deployment Evidence
+
 ### Live Deployment
 
-- **Yolanda Lim (ST125970):** http://192.41.170.112:5970  
-- **Subhana Chitrakar (ST126138):** http://192.41.170.112:6138  
+- **Yolanda Lim (ST125970):** <http://192.41.170.112:5970>  
+- **Subhana Chitrakar (ST126138):** <http://192.41.170.112:6138>  
 
 ### Screenshot (Deployed ML App)
 
@@ -244,8 +245,8 @@ charges_per_month = total_charges / (tenure + 1)   # must match train_EDA.ipynb
 
 ### Source Code
 
-GitHub: https://github.com/limhpone/ml-classwork-yolanda-subhana  
-Docker Hub: https://hub.docker.com/repository/docker/yolandalim/ml-yolanda-subhana/general  
+GitHub: <https://github.com/limhpone/ml-classwork-yolanda-subhana>  
+Docker Hub: <https://hub.docker.com/repository/docker/yolandalim/ml-yolanda-subhana/general>  
 
 ```bash
 git clone https://github.com/limhpone/ml-classwork-yolanda-subhana.git
@@ -262,6 +263,7 @@ python app.py
 
 docker build -t ml-yolanda-subhana .
 docker run -p 5000:5000 ml-yolanda-subhana
+```
 
 ### Option C — Web UI Walkthrough
 
@@ -274,7 +276,6 @@ Once the server is running :
    - Animated probability bars for both Churn % and No Churn %
 
 ---
-
 ## 10. Analysis Summary & Business Insights
 
 ### Key Findings
