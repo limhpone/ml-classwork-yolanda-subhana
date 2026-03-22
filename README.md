@@ -2,7 +2,7 @@
 
 **Course:** Machine Learning
 
-**Authors:** Aye Khin Khin Hpone (Yolanda Lim) — 125970 | Subhana Chitrakar — 126138
+**Authors:** Aye Khin Khin Hpone (Yolanda Lim) — 125970 
 
 ---
 
@@ -11,7 +11,6 @@
 ### Live Deployment
 
 - **Yolanda Lim (ST125970):** <http://192.41.170.112:5970>  
-- **Subhana Chitrakar (ST126138):** <http://192.41.170.112:6138>  
 
 ### Deployed Model
 
@@ -317,4 +316,4 @@ Once the server is running :
 
 ---
 
-Aye Khin Khin Hpone (Yolanda Lim) — ST125970 | Subhana Chitrakar — ST126138 | Machine Learning Course
+Aye Khin Khin Hpone (Yolanda Lim) — ST125970 | Machine Learning Course
