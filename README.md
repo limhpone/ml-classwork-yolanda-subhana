@@ -15,7 +15,7 @@
 ### Deployed Model
 
 **Telco Churn Predictor**  
-Aye Khin Khin Hpone (Yolanda Lim) · ST125970 · Subhana Chitrakar · ST126138  
+Aye Khin Khin Hpone (Yolanda Lim) · ST125970 · 
 Logistic Regression Pipeline · Machine Learning
 
 ### Video Recording (Deployed ML App)
